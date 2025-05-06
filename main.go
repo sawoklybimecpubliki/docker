@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"io"
 	"log"
 	"net/http"
 )
@@ -14,27 +15,23 @@ func answer(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(answer)
 
-	/*ans, err := http.Get("http://time_app:8089")
-	if err != nil {
-		log.Fatal(err)
-	}
-	answer, err = json.Marshal(ans)
-	w.Write(answer)*/
-}
-
-func kek(w http.ResponseWriter, r *http.Request) {
-	answer, err := json.Marshal("AAAAAAA chto?")
+	ans, err := http.Get("http://time_app:8089")
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	w.Write(answer)
+	out, _ := io.ReadAll(ans.Body)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	w.Write(out)
 }
 
 func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("GET /", answer)
-	router.HandleFunc("GET /kek", kek)
 
 	log.Println("server start listening on :8088")
 	err := http.ListenAndServe(":80", router)
