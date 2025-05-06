@@ -9,7 +9,7 @@ services:
     networks:
       - back
   time_app:
-    build: ../TimeApp
+    build: ./TimeApp
     networks:
       - back
 networks:
