@@ -25,14 +25,8 @@ func main() {
 	router := http.NewServeMux()
 	router.HandleFunc("GET /", ans)
 	log.Println("server start listening on :8089")
-	err := http.ListenAndServe(":80", router)
+	err := http.ListenAndServe(":8089", router)
 
-	_, err2 := http.Get("http://app:8088")
-	if err2 != nil {
-		log.Fatal(err2)
-	} else {
-		log.Println("OTVET BIL")
-	}
 	if err != nil {
 		log.Fatal("ListenAndServe: ", err)
 	}
